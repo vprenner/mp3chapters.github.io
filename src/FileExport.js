@@ -43,7 +43,7 @@ async function exportFileBasedOnOldTags(file, tags) {
                     console.error('Error encoding image:', error);
                 }
                 eventTag.usedImages = true;
-            }            
+            }
             chapterTag.push(chapterObject);
             if (chapter.title[0] != "_") {
                 tocTag.elements.push(`chp${chapterIndex}`);
@@ -57,9 +57,11 @@ async function exportFileBasedOnOldTags(file, tags) {
 
     for (let field of window.fieldNames) {
         const input = document.getElementById(`field-${field}`);
-        if (input.value != input.dataset.oldValue) {
-            tags[field] = input.value;
+        let newVal = input.value;
+        if (field === 'userDefinedUrl') {
+            newVal = [{url: input.value}]
         }
+        tags[field] = newVal;
         eventTag.changedID3Fields = true;
     }
 
@@ -83,10 +85,6 @@ async function exportFileBasedOnOldTags(file, tags) {
         downloadLink.click();
     });
 
-    if (window.currentFilename != "example.mp3") {
-        // send event to Google Analytics
-        gtag('event', 'export', eventTag);
-    }
 }
 
 export function exportFile(file) {

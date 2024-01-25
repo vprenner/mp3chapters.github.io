@@ -81,11 +81,15 @@ export function loadFile(file, wave, player) {
         for (let field of window.fieldNames) {
             const input = document.getElementById(`field-${field}`);
             if (tags.hasOwnProperty(field)) {
-                input.value = tags[field];
+                if (field === 'userDefinedUrl') {
+                    input.value = tags[field] && tags[field].length && tags[field][0].url;
+                } else {
+                    input.value = tags[field];
+                }
                 input.dataset.oldValue = tags[field];
             } else {
-                input.value = "";
-                input.dataset.oldValue = "";
+                //input.value = "";
+                //input.dataset.oldValue = "";
             }
         }
 
@@ -94,8 +98,16 @@ export function loadFile(file, wave, player) {
             const blob = new Blob([tags.image.imageBuffer], { type: tags.image.mime });
             const url = URL.createObjectURL(blob);
             img.src = url;
+
+            const image = {
+                imageBuffer: tags.image.imageBuffer,
+                mime: tags.image.mime,
+                type: { id: 0, name: 'other' },
+            };
+            window.coverImage = image;
         } else {
-            img.src = "img/placeholder.png";
+
+            //img.src = "img/placeholder.png";
         }
 
         buildGallery();

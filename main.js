@@ -23,7 +23,7 @@ window.addEventListener('beforeunload', function (e) {
 });
 
 // id3 field names that are supported
-window.fieldNames = ["title", "artist", "album", "trackNumber", "genre", "year", "copyright", "publisher", "language", "encodedBy"];
+window.fieldNames = ["title", "artist", "copyright", "publisher", "releaseTime", "recordingTime", "userDefinedUrl", "encodedBy"];
 
 function addChaptersToPlayer() {
     const chapters_ = chapters.getChapters();
@@ -36,10 +36,10 @@ function addChaptersToPlayer() {
     }
     for (let chapter of chapters_) {
         if (chapter.error == undefined) {
-            track.addCue({ 
-                "startTime": chapter.start / 1000, 
-                "endTime": chapter.end / 1000, 
-                "text": chapter.title 
+            track.addCue({
+                "startTime": chapter.start / 1000,
+                "endTime": chapter.end / 1000,
+                "text": chapter.title
             });
         }
     }
@@ -86,10 +86,10 @@ document.addEventListener('DOMContentLoaded', function () {
     skip1.style.marginRight = "-4px";
 
     // fetch and load example file
-    fetch('example.mp3')
+    fetch('mdtemplate.mp3')
         .then(response => response.blob())
         .then(blob => {
-            const file = new File([blob], 'example.mp3');
+            const file = new File([blob], 'mdtemplate.mp3');
             loadFile(file, wave, player);
         });
 });
