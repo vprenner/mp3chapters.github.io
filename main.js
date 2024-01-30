@@ -23,15 +23,16 @@ function pasteChapters(e) {
     if (result.errors && result.errors.length > 0) {
         console.log(result.errors);
         // document.getElementById('text-input').value = pastedData;
-    } else if (result.data && result.data.length >= 2 && result.data[0].length >= 20){
+    } else if (result.data && result.data.length >= 2 && result.data[0].length >= 21){
         e.stopPropagation();
         e.preventDefault();
         const data = result.data;
         const output = [];
         for(let i = 1; i < data.length; i++) {
             const row = data[i];
-            let time = row[8];
-            const note = row[19];
+            if (row.length <= 20) continue;
+            let time = row[10];
+            const note = row[20];
             time = time.split(':').slice(0, 3).join(':')
             if (i === 1) {
                 time = '00:00:00';
