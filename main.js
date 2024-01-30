@@ -8,6 +8,41 @@ import { initializeDragDrop } from './src/dragDropHandler.js';
 import { initializeImageHandling } from './src/ImageHandler.js';
 import { updatePodlove, setUpExportButtons } from './src/OtherFormatExports.js';
 
+
+function pasteChapters(e) {
+    var clipboardData, pastedData;
+
+    // Stop data actually being pasted into div
+    e.stopPropagation();
+    e.preventDefault();
+
+
+    // Get pasted data via clipboard API
+    clipboardData = e.clipboardData || window.clipboardData;
+    pastedData = clipboardData.getData('Text');
+    const result = Papa.parse(pastedData);
+    if (result.errors && result.errors.length > 0) {
+        console.log(result.errors);
+    } else if (result.data && result.data.length >= 2 && result.data[0].length >= 20){
+        const data = result.data;
+        const output = [];
+        for(let i = 1; i < data.length; i++) {
+            const row = data[i];
+            let time = row[8];
+            const note = row[19];
+            time = time.split(':').slice(0, 3).join(':')
+            if (i === 1) {
+                time = '00:00:00';
+            }
+            output.push(`${time} ${note}`);
+        }
+        document.getElementById('text-input').value = output.join('\n');
+    } else {
+        document.getElementById('text-input').value = pastedData;
+    }
+
+}
+
 const chapters = new ChapterList();
 window.chapters = chapters;
 
@@ -67,6 +102,7 @@ document.addEventListener('DOMContentLoaded', function () {
     textInput.addEventListener('blur', updateChapterListBasedOnTextarea);
     textInput.addEventListener('mousedown', editText);
     textInput.addEventListener('input', adjustTextAreaHeight);
+    textInput.addEventListener('paste', pasteChapters);
 
     tippy('[data-tippy-content]');
 
