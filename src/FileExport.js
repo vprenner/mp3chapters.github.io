@@ -59,7 +59,7 @@ async function exportFileBasedOnOldTags(file, tags) {
         const input = document.getElementById(`field-${field}`);
         let newVal = input.value;
         if (field === 'userDefinedUrl') {
-            newVal = [{url: input.value}]
+            newVal = [{url: input.value, description: ''}]
         }
         tags[field] = newVal;
         eventTag.changedID3Fields = true;

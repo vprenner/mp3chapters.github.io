@@ -193,12 +193,12 @@ export function encodeImage(image) {
             if (image.mime === 'image/jpeg') {
                 if (img.width <= 1400 && img.height <= 1400) {
                     // no need to resize
-                    resolve(image);
+                    return resolve(image);
                 }
             }
             // if it's a png and filesize is < 100kb, no need to resize
-            if (image.mime === 'image/png' && image.imageBuffer.size < 100000) {
-                resolve(image);
+            if (image.mime === 'image/png' && image.imageBuffer.length < 102400) {
+                return resolve(image);
             }
 
             console.log("Resizing image");

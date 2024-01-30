@@ -420,28 +420,9 @@
     <div class="container col-xxl-9 px-4 py-2" id="hero">
         <div class="row flex-lg-row-reverse align-items-center g-5 py-0 py-sm-4">
             <div class="col-12 mt-5 mt-sm-5 col-sm-8 col-lg-6">
-                <img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw=="
-                    id="hero-image" class="d-block mx-lg-auto img-fluid"
-                    alt="Two example screenshots of podcast apps displaying a list of chapters" width="400" height="461"
-                    loading="lazy" data-tippy-content="Examples of podcasts that provide chapters">
+
             </div>
             <div class="col-lg-6 mt-4 mt-sm-8">
-                <h1 class="display-5 fw-bold text-body-emphasis lh-1 mb-3">Add chapters to your podcast MP3 files<span
-                        class="d-none">.</span></h1>
-                <p class="lead">A simple online tool without install or signup, running locally in your browser. Works
-                    with all
-                    podcast players that support <code class="text-body">id3</code> chapters.</p>
-                <div class="container app-icons">
-                    <img src="app-icons/apple-podcasts.webp" width="100" height="100"
-                        data-tippy-content="Works with Apple Podcasts">
-                    <img src="app-icons/overcast.webp" width="100" height="100"
-                        data-tippy-content="Works with Overcast">
-                    <img src="app-icons/pocketcasts.webp" width="100" height="100"
-                        data-tippy-content="Works with Pocket Casts">
-                    <img src="app-icons/castro.webp" width="100" height="100" data-tippy-content="Works with Castro">
-                    <img src="app-icons/podcastaddict.webp" width="100" height="100"
-                        data-tippy-content="Works with Podcast Addict">
-                </div>
                 <p class="lead">To start, load your audio file.</p>
                 <div class="d-grid gap-2 d-md-flex justify-content-md-start align-items-center">
                     <button type="button" class="btn btn-primary btn-lg icon-link px-4 me-md-2"
@@ -662,6 +643,18 @@
                     <label for="field-userDefinedUrl">URL</label>
                 </div>
 
+                <div class="form-floating col-12 col-md-6 mb-2 ps-0">
+                    <input type="text" class="form-control" id="field-podcastUrl" data-field-name="podcastUrl"
+                           placeholder="Podcast URL" value="https://feed.podbean.com/MasteringDungeons/feed.xml">
+                    <label for="field-podcastUrl">Podcast URL</label>
+                </div>
+
+                <div class="form-floating col-12 col-md-6 mb-2 ps-0">
+                    <input type="text" class="form-control" id="field-podcastDescription" data-field-name="podcastDescription"
+                           placeholder="Description" value="Mastering Dungeons Podcast">
+                    <label for="field-podcastDescription">Description</label>
+                </div>
+
                 <div class="form-floating col-12 col-md-6 mb-2 ps-0"
                     data-tippy-content="Consider attributing this tool so others can find it.">
                     <input type="text" class="form-control" id="field-encodedBy" data-field-name="encodedBy"
@@ -869,17 +862,8 @@
 
     <script src="https://unpkg.com/@popperjs/core@2"></script>
     <script src="https://unpkg.com/tippy.js@6"></script>
-    <script src="node-id3-browserify.min.js"></script>
+    <script src="node-id3-browserify.js"></script>
     <script src="main.js" type="module"></script>
-
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-5B08GWJJCM"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag() { dataLayer.push(arguments); }
-        gtag('js', new Date());
-
-        gtag('config', 'G-5B08GWJJCM');
-    </script>
 </body>
 
 </html>

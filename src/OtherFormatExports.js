@@ -15,7 +15,6 @@ export function setUpExportButtons() {
         const container = document.getElementById('podlove');
         container.classList.remove("d-none");
         container.open = true;
-        gtag('event', 'podlove', {});
     });
 
     const imgLinkSwitch = document.getElementById('imgLinkSwitch');

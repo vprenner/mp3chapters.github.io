@@ -23,7 +23,7 @@ window.addEventListener('beforeunload', function (e) {
 });
 
 // id3 field names that are supported
-window.fieldNames = ["title", "artist", "copyright", "publisher", "releaseTime", "recordingTime", "userDefinedUrl", "encodedBy"];
+window.fieldNames = ["title", "artist", "copyright", "publisher", "releaseTime", "recordingTime", "userDefinedUrl", "podcastUrl", "podcastDescription", "encodedBy"];
 
 function addChaptersToPlayer() {
     const chapters_ = chapters.getChapters();
@@ -95,13 +95,10 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 function setColorScheme() {
-    const hero = document.getElementById('hero-image');
     if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
         document.documentElement.dataset.bsTheme = 'dark';
-        hero.src = 'hero-dark.jpg';
     } else {
         document.documentElement.dataset.bsTheme = 'light';
-        hero.src = 'hero.jpg';
     }
 }
 
