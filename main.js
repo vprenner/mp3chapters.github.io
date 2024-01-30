@@ -13,8 +13,7 @@ function pasteChapters(e) {
     var clipboardData, pastedData;
 
     // Stop data actually being pasted into div
-    e.stopPropagation();
-    e.preventDefault();
+
 
 
     // Get pasted data via clipboard API
@@ -23,7 +22,10 @@ function pasteChapters(e) {
     const result = Papa.parse(pastedData);
     if (result.errors && result.errors.length > 0) {
         console.log(result.errors);
+        // document.getElementById('text-input').value = pastedData;
     } else if (result.data && result.data.length >= 2 && result.data[0].length >= 20){
+        e.stopPropagation();
+        e.preventDefault();
         const data = result.data;
         const output = [];
         for(let i = 1; i < data.length; i++) {
@@ -37,8 +39,6 @@ function pasteChapters(e) {
             output.push(`${time} ${note}`);
         }
         document.getElementById('text-input').value = output.join('\n');
-    } else {
-        document.getElementById('text-input').value = pastedData;
     }
 
 }
