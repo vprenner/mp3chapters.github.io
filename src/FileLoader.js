@@ -75,7 +75,7 @@ export function loadFile(file, wave, player) {
         }
 
         if (tags.hasOwnProperty('encodedBy')) {
-            tags.encodedBy = `${tags.encodedBy} and mp3chapters.github.io`;
+            tags.encodedBy = `${tags.encodedBy}`;
         }
 
         for (let field of window.fieldNames) {

@@ -3460,7 +3460,6 @@ const FRAME_IDENTIFIERS = {
         chapter:                "CHAP",
         tableOfContents:        "CTOC",
         userDefinedUrl:         "WXXX",
-        podcastUrl:             "WFED",
         podcastDescription:     "TDES",
         commercialUrl:          "WCOM",
         copyrightUrl:           "WCOP",
@@ -3544,7 +3543,6 @@ const FRAME_IDENTIFIERS = {
         paymentUrl:             "WPAY",
         publisherUrl:           "WPUB",
         userDefinedUrl:         "WXXX",
-        podcastUrl:             "WFED",
         podcastDescription:     "TDES",
     }
 }
@@ -4354,18 +4352,6 @@ module.exports.CTOC = {
     }
 }
 
-module.exports.WFED = {
-    create: (data) => {
-        return new ID3FrameBuilder('WFED')
-            .appendStaticValue(data, null,0x01)
-            .getBuffer()
-    },
-    read: (buffer) => {
-        const reader = new ID3FrameReader(buffer)
-        return reader.consumeStaticValue('string', null, 0x01)
-    }
-}
-
 module.exports.WXXX = {
     create: (data) => {
         if(!(data instanceof Array)) {
@@ -4375,16 +4361,16 @@ module.exports.WXXX = {
         return Buffer.concat(data.map((udu) => {
             return new ID3FrameBuilder("WXXX")
                 .appendStaticNumber(0x01, 1)
-                .appendNullTerminatedValue(udu.description, 0x01)
-                .appendStaticValue(udu.url, null, 0x01)
+                .appendNullTerminatedValue(udu.description)
+                .appendStaticValue(udu.url, null, 0x00)
                 .getBuffer()
         }))
     },
     read: (buffer) => {
         const reader = new ID3FrameReader(buffer, 0)
         return {
-            description: reader.consumeNullTerminatedValue('string', 0x01),
-            url: reader.consumeStaticValue('string', null, 0x01)
+            description: reader.consumeNullTerminatedValue('string'),
+            url: reader.consumeStaticValue('string', null, 0x00)
         }
     }
 }
