@@ -7,7 +7,7 @@ import { exportFile } from './src/FileExport.js';
 import { initializeDragDrop } from './src/dragDropHandler.js';
 import { initializeImageHandling } from './src/ImageHandler.js';
 import { updatePodlove, setUpExportButtons } from './src/OtherFormatExports.js';
-
+import {previousMonday, nextMonday, nextWednesday, format} from 'https://unpkg.com/date-fns@3.3.1/index.mjs';
 
 function pasteChapters(e) {
     var clipboardData, pastedData;
@@ -122,12 +122,27 @@ document.addEventListener('DOMContentLoaded', function () {
     back10.style.marginRight = "-4px";
     skip1.style.marginRight = "-4px";
 
+
     // fetch and load example file
     fetch('mdtemplate.mp3')
         .then(response => response.blob())
         .then(blob => {
             const file = new File([blob], 'mdtemplate.mp3');
-            loadFile(file, wave, player);
+            loadFile(file, wave, player, function(){
+                // smart date calculation
+                const now = new Date();
+                const pm = previousMonday(now);
+                const nm = nextMonday(now);
+                let tm = pm;
+                if (Math.abs(pm.getTime() - now.getTime()) > Math.abs(nm.getTime() - now.getTime())) {
+                    tm = nm;
+                }
+                const tw = nextWednesday(tm);
+                document.getElementById('field-recordingTime').value = format(tm, 'yyyy-MM-dd');
+                document.getElementById('field-recordingTime').value = format(tm, 'yyyy-MM-dd');
+                document.getElementById('field-releaseTime').value = format(tw, 'yyyy-MM-dd');
+                document.getElementById('field-copyright').value = format(tw, 'yyyy');
+            });
         });
 });
 

@@ -7,7 +7,7 @@ function arrayEquals(a, b) {
 
 let initialLoad = true;
 
-export function loadFile(file, wave, player) {
+export function loadFile(file, wave, player, cb) {
     window.currentFilename = file.name;
     window.currentFile = file;
     window.chapters.duration = -1;
@@ -113,6 +113,9 @@ export function loadFile(file, wave, player) {
         buildGallery();
 
         initialLoad = false;
+        if (cb) {
+            cb();
+        }
     });
 
     document.getElementById('filename').innerText = file.name;
