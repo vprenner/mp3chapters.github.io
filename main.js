@@ -1,5 +1,4 @@
 import WaveSurfer from './libs/wavesurfer.esm.js'
-import { secondsToString, stringToSeconds } from './src/utils.js';
 import { ChapterList } from './src/ChapterList.js';
 import { setTextAreaContent, displayChapterList, updateChapterListBasedOnTextarea, editText, adjustTextAreaHeight, highlightCurrentLine } from './src/ChapterListEditor.js';
 import { loadFile } from './src/FileLoader.js';
@@ -7,7 +6,7 @@ import { exportFile } from './src/FileExport.js';
 import { initializeDragDrop } from './src/dragDropHandler.js';
 import { initializeImageHandling } from './src/ImageHandler.js';
 import { updatePodlove, setUpExportButtons } from './src/OtherFormatExports.js';
-import {previousMonday, nextMonday, nextWednesday, format} from 'https://unpkg.com/date-fns@3.3.1/index.mjs';
+
 
 function pasteChapters(e) {
     var clipboardData, pastedData;
@@ -128,22 +127,34 @@ document.addEventListener('DOMContentLoaded', function () {
         .then(response => response.blob())
         .then(blob => {
             const file = new File([blob], 'mdtemplate.mp3');
-            loadFile(file, wave, player, function(){
+            loadFile(file, wave, player, function(tags){
                 // smart date calculation
-                const now = new Date();
-                const pm = previousMonday(now);
-                const nm = nextMonday(now);
-                let tm = pm;
-                if (Math.abs(pm.getTime() - now.getTime()) > Math.abs(nm.getTime() - now.getTime())) {
-                    tm = nm;
+                const {monday, wednesday, year} = getDates();
+                document.getElementById('field-recordingTime').value = monday;
+                document.getElementById('field-releaseTime').value = wednesday;
+                document.getElementById('field-copyright').value = year;
+
+                try {
+                    fetch(tags.userDefinedUrl[0].url).then(response => response.text()).then(xml => {
+                        let number = 'XXX';
+                        const regex = /<title>.*\(MD (\d+)\).*<\/title>/;
+                        const arr = regex.exec(xml);
+                        if (arr.length > 1) {
+                            number = parseInt(arr[1])
+                        }
+                        document.getElementById('field-title').value = `Title (MD ${number + 1})`;
+
+                    }).catch(err => {
+                        console.error('cannot determine latest episode number');
+                        console.error(err);
+                    })
+                } catch (err) {
+                    // just don't crash
                 }
-                const tw = nextWednesday(tm);
-                document.getElementById('field-recordingTime').value = format(tm, 'yyyy-MM-dd');
-                document.getElementById('field-recordingTime').value = format(tm, 'yyyy-MM-dd');
-                document.getElementById('field-releaseTime').value = format(tw, 'yyyy-MM-dd');
-                document.getElementById('field-copyright').value = format(tw, 'yyyy');
+
             });
         });
+
 });
 
 function setColorScheme() {

@@ -4360,7 +4360,7 @@ module.exports.WXXX = {
 
         return Buffer.concat(data.map((udu) => {
             return new ID3FrameBuilder("WXXX")
-                .appendStaticNumber(0x01, 1)
+                .appendStaticNumber(0x00, 0)
                 .appendNullTerminatedValue(udu.description)
                 .appendStaticValue(udu.url, null, 0x00)
                 .getBuffer()

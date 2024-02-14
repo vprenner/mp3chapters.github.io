@@ -114,7 +114,7 @@ export function loadFile(file, wave, player, cb) {
 
         initialLoad = false;
         if (cb) {
-            cb();
+            cb(tags);
         }
     });
 
