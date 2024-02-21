@@ -79,6 +79,10 @@ export function loadFile(file, wave, player, cb) {
         }
 
         for (let field of window.fieldNames) {
+            // ignore loading dates from file
+            if (field === 'releaseTime' || field === 'recordingTime') {
+                continue;
+            }
             const input = document.getElementById(`field-${field}`);
             if (tags.hasOwnProperty(field)) {
                 if (field === 'userDefinedUrl') {
